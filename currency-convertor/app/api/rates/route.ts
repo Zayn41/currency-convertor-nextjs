@@ -41,6 +41,11 @@ export async function GET(req: Request) {
             next: { revalidate: 3600 }
         });
 
+        console.log("API_URL:", API_URL);
+        console.log("API_KEY:", API_KEY);
+        console.log("FROM:", from);
+        console.log("FINAL URL:", `${API_URL}/${API_KEY}/latest/${from}`);
+
         if(!response.ok) {
             const status = response.status;
             if(status === 404) {
