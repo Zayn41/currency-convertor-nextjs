@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { validate } from "@/lib/validators/validation";
 import { ConvertSchema, convertSchema } from "@/schemas/convert.schema";
-import { success, ZodError } from "zod";
+import { ZodError } from "zod";
 
 interface ExchangeRateResponse {
     conversion_rates: Record<string, number>
@@ -12,17 +12,6 @@ export async function GET(req: Request) {
     let timeout: ReturnType<typeof setTimeout> | undefined;
 
     try {
-        const { CLIENT_URL } = process.env;
-        const origin = req.headers.get("origin");
-        const allowedOrigins = [CLIENT_URL];
-
-        if(origin && !allowedOrigins.includes(origin)) {
-            return NextResponse.json({
-                success: false,
-                message: "Forbidden"
-            }, { status: 403 });
-        }
-        
         const controller = new AbortController();
         timeout = setTimeout(() => controller.abort(), 5000);
 
